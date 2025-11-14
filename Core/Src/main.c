@@ -35,26 +35,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-void bmi088_Init(void) {
-  // Soft Reset ACCEL
-  BMI088_ACCEL_NS_L();
-  bmi088_write_reg(0x7E, 0xB6); // Write 0xB6 to ACC_SOFTRESET(0x7E)
-  HAL_Delay(1);
-  BMI088_ACCEL_NS_H();
-
-  // Soft Reset GYRO
-  BMI088_GYRO_NS_L();
-  bmi088_write_reg(0x14, 0xB6); // Write 0xB6 to GYRO_SOFTRESET(0x14)
-  HAL_Delay(30);
-  BMI088_GYRO_NS_H();
-
-  // Switch ACCEL to Normal Mode
-  BMI088_ACCEL_NS_L();
-  HAL_Delay(1);
-  bmi088_write_reg(0x7D, 0x04); // Write 0x04 to ACC_PWR_CTRL(0x7D)
-  HAL_Delay(1);
-  BMI088_ACCEL_NS_H();
-}
+#define rx_buf_size 18
+#define rx_data_size 18
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -65,8 +47,8 @@ void bmi088_Init(void) {
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t rx_acc_data[6];
-uint8_t rx_gyro_data[6];
+uint8_t rx_buf[rx_buf_size];
+uint8_t rx_data[rx_data_size];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -97,7 +79,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  bmi088_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -115,6 +96,7 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
+  HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA(UART_HandleTypeDef *huart3, uint8_t *rx_buf, uint16_t Size);
   /* USER CODE END 2 */
 
   /* Infinite loop */
