@@ -34,7 +34,6 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/callback.cpp
-        Core/Inc/callback.h
         Core/Src/dma.c
         Core/Src/usart.c
         Core/Src/rc.cpp

@@ -53,7 +53,6 @@ public:
     void init(UART_HandleTypeDef *huart); //初始化
     void handle(uint8_t *pdata); //数据处理(解包)
     bool isConnected() {return connection_status;} // 连接状态接口
-    RC_Clt_t* getData(); // 获取数据接口
     void updateOnReceive(uint8_t* data, uint16_t size); // 在回调函数中调用此方法来更新接收状态
 
 private:
